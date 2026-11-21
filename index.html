@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oppa Cafe | منيو أوبا كافيه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #111827;
+      --card: #1f2937;
+      --accent: #f59e0b;
+      --whatsapp: #22c55e;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: #374151;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding-bottom: 110px;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(17, 24, 39, 0) 100%);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 22px 0 12px;
+      color: var(--accent);
+      border-right: 4px solid var(--accent);
+      padding-right: 10px;
+    }
+
+    .menu-item {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-info h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .item-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .item-price {
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 0.95rem;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .qty-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background-color: #111827;
+      color: var(--text);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .qty-btn.add {
+      background-color: var(--accent);
+      color: #111827;
+      border-color: var(--accent);
+    }
+
+    .qty-val {
+      min-width: 22px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .cart-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #1f2937;
+      border-top: 1px solid var(--border);
+      padding: 14px 16px;
+      z-index: 50;
+    }
+
+    .cart-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-summary {
+      font-size: 0.9rem;
+    }
+
+    .cart-summary strong {
+      font-size: 1.05rem;
+      color: var(--accent);
+      display: block;
+    }
+
+    .whatsapp-btn {
+      background-color: var(--whatsapp);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .whatsapp-btn:disabled {
+      background-color: #374151;
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Oppa Cafe</h1>
+    <p>اختر مشروباتك وحلوياتك وأرسل طلبك مباشرة عبر واتساب</p>
+  </header>
+
+  <main class="container" id="menu-container"></main>
+
+  <div class="cart-bar">
+    <div class="cart-inner">
+      <div class="cart-summary">
+        <span id="cart-count">0 أصناف مختارة</span>
+        <strong id="cart-total">الإجمالي: 0 ر.س</strong>
+      </div>
+      <button class="whatsapp-btn" id="order-btn" disabled onclick="sendOrder()">
+        اطلب الآن عبر واتساب
+      </button>
+    </div>
+  </div>
+  <script>
+    const WHATSAPP_NUMBER = "966554501502";
+
+    const MENU_DATA = [
+      {
+        category: "القهوة والمشروبات الساخنة",
+        items: [
+          { id: 1, name: "إسبريسو", desc: "شوت قهوة مختصة غنية", price: 12 },
+          { id: 2, name: "كابتشينو", desc: "إسبريسو مع حليب مبخر ورغوة كريمية", price: 17 },
+          { id: 3, name: "لاتيه أوبا الخاص", desc: "مزيج ناعم بنكهة مميزة", price: 19 },
+          { id: 4, name: "قهوة سعودية", desc: "بالهيل والزعفران", price: 14 }
+        ]
+      },
+      {
+        category: "المشروبات الباردة",
+        items: [
+          { id: 5, name: "آيس سبانش لاتيه", desc: "قهوة باردة مع حليب مكثف محلى", price: 21 },
+          { id: 6, name: "آيس أمريكانو", desc: "إسبريسو مع ماء بارد وثلج", price: 15 },
+          { id: 7, name: "موهيتو ليمون ونعناع", desc: "منعش ومثالي للأجواء الدافئة", price: 18 }
+        ]
+      },
+      {
+        category: "الحلويات والمخبوزات",
+        items: [
+          { id: 8, name: "تشيز كيك كلاسيك", desc: "طبقة بسكويت مقرمشة وكريمة غنية", price: 22 },
+          { id: 9, name: "كوكيز شوكولاتة داكنة", desc: "مخبوزة طازجة بقطع شوكولاتة", price: 14 }
+        ]
+      }
+    ];
+
+    const cart = {};
+
+    function renderMenu() {
+      const container = document.getElementById("menu-container");
+      container.innerHTML = "";
+
+      MENU_DATA.forEach((section) => {
+        const title = document.createElement("h2");
+        title.className = "section-title";
+        title.textContent = section.category;
+        container.appendChild(title);
+
+        section.items.forEach((item) => {
+          const qty = cart[item.id] || 0;
+          const row = document.createElement("div");
+          row.className = "menu-item";
+          row.innerHTML = `
+            <div class="item-info">
+              <h3>${item.name}</h3>
+              <p>${item.desc}</p>
+              <span class="item-price">${item.price} ر.س</span>
+            </div>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+              <span class="qty-val">${qty}</span>
+              <button class="qty-btn add" onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+      });
+
+      updateCartBar();
+    }
+
+    function findItemById(id) {
+      for (const sec of MENU_DATA) {
+        const found = sec.items.find((i) => i.id === id);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function changeQty(id, delta) {
+      const current = cart[id] || 0;
+      const next = Math.max(0, current + delta);
+      if (next === 0) {
+        delete cart[id];
+      } else {
+        cart[id] = next;
+      }
+      renderMenu();
+    }
+
+    function updateCartBar() {
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      Object.entries(cart).forEach(([id, qty]) => {
+        const item = findItemById(Number(id));
+        if (item) {
+          totalItems += qty;
+          totalPrice += item.price * qty;
+        }
+      });
+
+      document.getElementById("cart-count").textContent = `${totalItems} أصناف مختارة`;
+      document.getElementById("cart-total").textContent = `الإجمالي: ${totalPrice} ر.س`;
+      document.getElementById("order-btn").disabled = totalItems === 0;
+    }
+
+    function sendOrder() {
+      let lines = ["مرحباً Oppa Cafe، أود طلب:", ""];
+      let totalPrice = 0;
+
+      Object.entries(cart).forEach(([id, qty]) => {
+        const item = findItemById(Number(id));
+        if (item) {
+          const sub = item.price * qty;
+          totalPrice += sub;
+          lines.push(`• ${item.name} × ${qty} = ${sub} ر.س`);
+        }
+      });
+
+      lines.push("", `الإجمالي: ${totalPrice} ر.س`);
+      const text = encodeURIComponent(lines.join("\n"));
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
+    }
+
+    renderMenu();
+  </script>
+</body>
+</html>
