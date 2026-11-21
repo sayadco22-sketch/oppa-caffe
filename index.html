@@ -9,13 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #111827;
-      --card: #1f2937;
-      --accent: #f59e0b;
-      --whatsapp: #22c55e;
-      --text: #f9fafb;
-      --muted: #9ca3af;
-      --border: #374151;
+      --stone-bg: #f5f3ef;
+      --stone-soft: #ece8e1;
+      --white: #ffffff;
+      --teal: #0d9488;
+      --teal-dark: #0f766e;
+      --teal-light: #e6f7f5;
+      --teal-border: #bce6e2;
+      --whatsapp: #16a34a;
+      --whatsapp-hover: #15803d;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e5e0d8;
     }
 
     * {
@@ -26,81 +31,274 @@
     }
 
     body {
-      background-color: var(--bg);
+      background-color: var(--stone-bg);
       color: var(--text);
-      padding-bottom: 110px;
-      line-height: 1.6;
+      padding-bottom: 118px;
+      line-height: 1.65;
+      min-height: 100vh;
     }
 
-    header {
-      text-align: center;
-      padding: 28px 16px 20px;
+    .topbar {
+      background-color: var(--white);
       border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(245, 158, 11, 0.12) 0%, rgba(17, 24, 39, 0) 100%);
+      padding: 10px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
     }
 
-    header h1 {
+    .topbar-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .topbar-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background-color: var(--stone-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background-color: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .page {
+      display: none;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 18px 14px;
+      animation: fadeIn 0.22s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* صفحة الغلاف */
+    .cover-card {
+      background: linear-gradient(165deg, var(--white) 0%, var(--stone-soft) 100%);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 26px;
+      padding: 34px 20px 28px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(15, 118, 110, 0.08);
+    }
+
+    .cover-logo-frame {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 16px;
+      border-radius: 28px;
+      background-color: #090d16;
+      border: 4px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 22px rgba(13, 148, 136, 0.22);
+    }
+
+    .cover-logo-frame svg {
+      width: 98px;
+      height: 98px;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      background-color: var(--teal-light);
+      color: var(--teal-dark);
+      border: 1px solid var(--teal-border);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .cover-card h1 {
       font-size: 2rem;
       font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 6px;
+      color: var(--teal-dark);
+      margin-bottom: 4px;
     }
 
-    header p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 20px 16px;
-    }
-
-    .section-title {
-      font-size: 1.2rem;
+    .cover-card h2 {
+      font-size: 1.1rem;
       font-weight: 700;
-      margin: 22px 0 12px;
-      color: var(--accent);
-      border-right: 4px solid var(--accent);
-      padding-right: 10px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .cover-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      max-width: 480px;
+      margin: 0 auto 22px;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      color: var(--white);
+      border: none;
+      border-radius: 14px;
+      padding: 13px 28px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(13, 148, 136, 0.25);
+      margin-bottom: 24px;
+    }
+
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      text-align: right;
+    }
+
+    @media (max-width: 480px) {
+      .sections-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cover-section-tile {
+      background-color: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .cover-section-tile:hover {
+      border-color: var(--teal);
+      transform: translateY(-1px);
+    }
+
+    .cover-section-tile strong {
+      font-size: 0.92rem;
+      color: var(--text);
+      display: block;
+    }
+
+    .cover-section-tile span {
+      font-size: 0.78rem;
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    /* رأس صفحة القسم */
+    .section-hero {
+      background-color: var(--white);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(15, 118, 110, 0.06);
+    }
+
+    .section-artwork {
+      background: linear-gradient(120deg, var(--teal-light) 0%, var(--stone-soft) 100%);
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 1px solid var(--teal-border);
+    }
+
+    .section-artwork .title-group h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--teal-dark);
+    }
+
+    .section-artwork .title-group p {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .section-photo-box {
+      width: 84px;
+      height: 84px;
+      border-radius: 18px;
+      background-color: var(--white);
+      border: 1.5px solid var(--teal-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
+    }
+
+    .section-photo-box svg {
+      width: 62px;
+      height: 62px;
     }
 
     .menu-item {
-      background-color: var(--card);
+      background-color: var(--white);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
+      border-radius: 15px;
+      padding: 13px 15px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
     }
 
-    .item-info h3 {
-      font-size: 1.05rem;
+    .item-name {
+      font-size: 0.98rem;
       font-weight: 700;
-      margin-bottom: 3px;
-    }
-
-    .item-info p {
-      font-size: 0.85rem;
-      color: var(--muted);
+      color: var(--text);
+      margin-bottom: 4px;
     }
 
     .item-price {
-      font-weight: 800;
-      color: var(--accent);
-      font-size: 0.95rem;
-      margin-top: 4px;
       display: inline-block;
+      background-color: var(--teal-light);
+      color: var(--teal-dark);
+      border: 1px solid var(--teal-border);
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 2px 10px;
+      border-radius: 9px;
     }
 
     .qty-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-shrink: 0;
     }
 
@@ -108,24 +306,81 @@
       width: 34px;
       height: 34px;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      background-color: #111827;
-      color: var(--text);
-      font-size: 1.1rem;
-      font-weight: 700;
+      border: 1px solid var(--teal-border);
+      background-color: var(--stone-bg);
+      color: var(--teal-dark);
+      font-size: 1.15rem;
+      font-weight: 800;
       cursor: pointer;
     }
 
     .qty-btn.add {
-      background-color: var(--accent);
-      color: #111827;
-      border-color: var(--accent);
+      background-color: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
     }
 
     .qty-val {
       min-width: 22px;
       text-align: center;
+      font-weight: 800;
+    }
+
+    .page-pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pager-btn {
+      flex: 1;
+      background-color: var(--white);
+      color: var(--teal-dark);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
       font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pager-btn.primary {
+      background-color: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .note-box {
+      background-color: var(--white);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-top: 14px;
+    }
+
+    .note-box label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-bottom: 6px;
+    }
+
+    .note-box input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background-color: var(--stone-bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .note-box input:focus {
+      border-color: var(--teal);
+      background-color: var(--white);
     }
 
     .cart-bar {
@@ -133,14 +388,15 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background-color: #1f2937;
-      border-top: 1px solid var(--border);
-      padding: 14px 16px;
+      background-color: var(--white);
+      border-top: 1.5px solid var(--teal-border);
+      padding: 12px 16px;
       z-index: 50;
+      box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.08);
     }
 
     .cart-inner {
-      max-width: 720px;
+      max-width: 780px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -149,41 +405,72 @@
     }
 
     .cart-summary {
-      font-size: 0.9rem;
+      font-size: 0.86rem;
+      color: var(--muted);
     }
 
     .cart-summary strong {
       font-size: 1.05rem;
-      color: var(--accent);
+      color: var(--teal-dark);
       display: block;
     }
 
     .whatsapp-btn {
       background-color: var(--whatsapp);
-      color: #ffffff;
+      color: var(--white);
       border: none;
       border-radius: 12px;
       padding: 12px 18px;
-      font-size: 0.95rem;
-      font-weight: 700;
+      font-size: 0.92rem;
+      font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
     }
 
+    .whatsapp-btn:hover {
+      background-color: var(--whatsapp-hover);
+    }
+
     .whatsapp-btn:disabled {
-      background-color: #374151;
-      color: #9ca3af;
+      background-color: #cbd5e1;
+      color: #64748b;
       cursor: not-allowed;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Oppa Cafe</h1>
-    <p>اختر مشروباتك وحلوياتك وأرسل طلبك مباشرة عبر واتساب</p>
-  </header>
+  <nav class="topbar">
+    <div class="topbar-inner" id="topbar-tabs"></div>
+  </nav>
 
-  <main class="container" id="menu-container"></main>
+  <!-- صفحة الغلاف -->
+  <section class="page active" id="page-cover">
+    <div class="cover-card">
+      <div class="cover-logo-frame" aria-label="Oppa Cafe Logo">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36 28C32 20 40 14 38 7" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M72 26C68 17 77 11 75 5" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M41 34H47V52H41V34Z" fill="#ffffff"/>
+          <path d="M36 52H52L55 76C55 81 51 85 44 85C37 85 33 81 33 76L36 52Z" fill="#ffffff"/>
+          <path d="M44 62C30 62 22 52 24 41C25 36 29 33 33 33" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M58 42H94V64C94 75 86 83 75 83H73C63 83 58 76 58 66V42Z" fill="#ffffff"/>
+          <path d="M94 46H101C106 46 109 50 109 55C109 61 105 65 99 65H94" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M22 89C44 95 78 95 102 88" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <text x="60" y="111" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold" font-style="italic">Oppa Cafe</text>
+        </svg>
+      </div>
+      <div class="cover-badge">المنيو الرقمي الرسمي</div>
+      <h1>OPPA CAFE</h1>
+      <h2>أوبا كافيه</h2>
+      <p>تصفح أقسام المنيو صفحة بصفحة، اختر مشروباتك وحلوياتك وجلساتك، وأرسل طلبك مباشرة عبر واتساب.</p>
+      <button class="start-btn" onclick="openPage('hot')">ابدأ تصفح المنيو</button>
+
+      <div class="sections-grid" id="cover-sections"></div>
+    </div>
+  </section>
+
+  <!-- صفحات الأقسام -->
+  <div id="section-pages-container"></div>
 
   <div class="cart-bar">
     <div class="cart-inner">
@@ -192,60 +479,323 @@
         <strong id="cart-total">الإجمالي: 0 ر.س</strong>
       </div>
       <button class="whatsapp-btn" id="order-btn" disabled onclick="sendOrder()">
-        اطلب الآن عبر واتساب
+        اطلب عبر واتساب
       </button>
     </div>
   </div>
+
   <script>
     const WHATSAPP_NUMBER = "966554501502";
 
+    const SECTION_ART = {
+      hot: `<svg viewBox="0 0 64 64" fill="none"><rect x="14" y="24" width="28" height="24" rx="7" fill="#0d9488"/><path d="M42 28H47C50.9 28 54 31.1 54 35C54 38.9 50.9 42 47 42H42" stroke="#0f766e" stroke-width="3.5"/><path d="M22 17C19.5 13 23 9 21.5 5M33 17C30.5 13 34 9 32.5 5" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/></svg>`,
+      cold: `<svg viewBox="0 0 64 64" fill="none"><path d="M18 14H46L42 52C41.8 54.3 39.9 56 37.6 56H26.4C24.1 56 22.2 54.3 22 52L18 14Z" fill="#0d9488" fill-opacity="0.18" stroke="#0d9488" stroke-width="3"/><path d="M20 28H44" stroke="#0d9488" stroke-width="3"/><circle cx="29" cy="39" r="3.5" fill="#0f766e"/><circle cx="37" cy="44" r="2.5" fill="#14b8a6"/></svg>`,
+      soda: `<svg viewBox="0 0 64 64" fill="none"><rect x="19" y="13" width="26" height="40" rx="8" fill="#0d9488" fill-opacity="0.16" stroke="#0d9488" stroke-width="3"/><path d="M32 13V6L39 5" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/><circle cx="28" cy="31" r="2.5" fill="#0d9488"/><circle cx="36" cy="38" r="2.5" fill="#0f766e"/></svg>`,
+      milkshake: `<svg viewBox="0 0 64 64" fill="none"><path d="M18 27C18 18.7 24.3 12 32 12C39.7 12 46 18.7 46 27H18Z" fill="#0d9488"/><path d="M20 27L23 54H41L44 27H20Z" fill="#14b8a6" fill-opacity="0.2" stroke="#0f766e" stroke-width="3"/></svg>`,
+      fresh: `<svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="33" r="19" fill="#14b8a6" fill-opacity="0.2" stroke="#0d9488" stroke-width="3"/><path d="M32 14V52M13 33H51M18.5 19.5L45.5 46.5M45.5 19.5L18.5 46.5" stroke="#0d9488" stroke-width="2.2"/></svg>`,
+      cocktail: `<svg viewBox="0 0 64 64" fill="none"><path d="M14 14H50L34 34V50H43V54H21V50H30V34L14 14Z" fill="#0d9488" fill-opacity="0.2" stroke="#0f766e" stroke-width="3" stroke-linejoin="round"/></svg>`,
+      dessert: `<svg viewBox="0 0 64 64" fill="none"><path d="M13 40C13 29.5 21.5 22 32 22C42.5 22 51 29.5 51 40H13Z" fill="#0d9488"/><rect x="10" y="40" width="44" height="8" rx="4" fill="#0f766e"/><circle cx="32" cy="17" r="4" fill="#14b8a6"/></svg>`,
+      shisha: `<svg viewBox="0 0 64 64" fill="none"><path d="M32 9V31M23 14H41M21 37C21 32 25.9 28 32 28C38.1 28 43 32 43 37L46 52C46 54.2 44.2 56 42 56H22C19.8 56 18 54.2 18 52L21 37Z" stroke="#0f766e" stroke-width="3" fill="#14b8a6" fill-opacity="0.18"/></svg>`,
+      snacks: `<svg viewBox="0 0 64 64" fill="none"><ellipse cx="23" cy="27" rx="7" ry="10" transform="rotate(-22 23 27)" fill="#0d9488"/><ellipse cx="41" cy="27" rx="7" ry="10" transform="rotate(22 41 27)" fill="#14b8a6"/><ellipse cx="32" cy="41" rx="7" ry="10" fill="#0f766e"/></svg>`,
+      winter: `<svg viewBox="0 0 64 64" fill="none"><path d="M14 29H50C50 41.2 42 50 32 50C22 50 14 41.2 14 29Z" fill="#0d9488"/><path d="M22 50L18 56M42 50L46 56M24 20C22 16 25.5 12 24 8M38 20C36 16 39.5 12 38 8" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/></svg>`
+    };
+
     const MENU_DATA = [
       {
-        category: "القهوة والمشروبات الساخنة",
+        id: "hot",
+        category: "المشروبات الساخنة",
+        subtitle: "قهوة، شاي، سحلب ومشروبات دافئة",
         items: [
-          { id: 1, name: "إسبريسو", desc: "شوت قهوة مختصة غنية", price: 12 },
-          { id: 2, name: "كابتشينو", desc: "إسبريسو مع حليب مبخر ورغوة كريمية", price: 17 },
-          { id: 3, name: "لاتيه أوبا الخاص", desc: "مزيج ناعم بنكهة مميزة", price: 19 },
-          { id: 4, name: "قهوة سعودية", desc: "بالهيل والزعفران", price: 14 }
+          { id: 1, name: "فلات وايت", price: 16 },
+          { id: 2, name: "ماتشا", price: 16 },
+          { id: 3, name: "أمريكانو", price: 12 },
+          { id: 4, name: "قهوة تركي", price: 15 },
+          { id: 5, name: "لاتيه", price: 16 },
+          { id: 6, name: "إسبرسو سنجل", price: 12 },
+          { id: 7, name: "إسبرسو دبل", price: 15 },
+          { id: 8, name: "إسبرسو ميكاتو", price: 14 },
+          { id: 9, name: "قهوة مقطرة", price: 16 },
+          { id: 10, name: "كابتشينو", price: 18 },
+          { id: 11, name: "كورتادو", price: 16 },
+          { id: 12, name: "كراميل ميكاتو", price: 16 },
+          { id: 13, name: "موكا حار", price: 18 },
+          { id: 14, name: "اسبانيش لاتيه", price: 18 },
+          { id: 15, name: "هوت سيدر", price: 15 },
+          { id: 16, name: "هوت شوكليت", price: 18 },
+          { id: 17, name: "قهوة سعودية دلة", price: 28 },
+          { id: 18, name: "شاي", price: 7 },
+          { id: 19, name: "تركي دبل", price: 15 },
+          { id: 20, name: "نسكافيه", price: 16 },
+          { id: 21, name: "قهوة فرنساوي بندق", price: 16 },
+          { id: 22, name: "قهوة فرنساوي كلاسيك", price: 16 },
+          { id: 23, name: "كوب قهوة عربي", price: 10 },
+          { id: 24, name: "براد شاي عراقي", price: 25 },
+          { id: 25, name: "براد شاي مغربي", price: 28 },
+          { id: 26, name: "براد شاي", price: 25 },
+          { id: 27, name: "سحلب نوتيلا", price: 18 },
+          { id: 28, name: "سحلب مكسرات", price: 16 },
+          { id: 29, name: "شاي كرك", price: 10 },
+          { id: 30, name: "جنزبيل بالليمون", price: 10 },
+          { id: 31, name: "ينسون", price: 8 },
+          { id: 32, name: "شاي مغربي", price: 8 }
         ]
       },
       {
+        id: "cold",
         category: "المشروبات الباردة",
+        subtitle: "موهيتو، قهوة مثلجة ومشروبات منعشة",
         items: [
-          { id: 5, name: "آيس سبانش لاتيه", desc: "قهوة باردة مع حليب مكثف محلى", price: 21 },
-          { id: 6, name: "آيس أمريكانو", desc: "إسبريسو مع ماء بارد وثلج", price: 15 },
-          { id: 7, name: "موهيتو ليمون ونعناع", desc: "منعش ومثالي للأجواء الدافئة", price: 18 }
+          { id: 33, name: "موهيتو خوخ", price: 18 },
+          { id: 34, name: "آيس شوكليت", price: 18 },
+          { id: 35, name: "آيس تي", price: 16 },
+          { id: 36, name: "ماتشا", price: 18 },
+          { id: 37, name: "موكا بارد", price: 18 },
+          { id: 38, name: "آيس وايت موكا", price: 18 },
+          { id: 39, name: "آيس كراميل ميكاتو", price: 18 },
+          { id: 40, name: "آيس لاتيه", price: 18 },
+          { id: 41, name: "آيس إسبانيش لاتيه", price: 18 },
+          { id: 42, name: "آيس أمريكانو", price: 12 },
+          { id: 43, name: "V60", price: 16 },
+          { id: 44, name: "موهيتو مكس أرويجو", price: 18 },
+          { id: 45, name: "موهيتو توت أحمر", price: 18 },
+          { id: 46, name: "موهيتو توت أزرق", price: 18 },
+          { id: 47, name: "موهيتو ليمون نعناع", price: 18 },
+          { id: 48, name: "موهيتو فراولة", price: 18 },
+          { id: 49, name: "موهيتو رمان", price: 18 },
+          { id: 50, name: "موهيتو باشن فروت", price: 18 },
+          { id: 51, name: "موهيتو بطيخ", price: 18 },
+          { id: 52, name: "موهيتو كود رد", price: 20 },
+          { id: 53, name: "موهيتو ريد بول", price: 24 }
         ]
       },
       {
-        category: "الحلويات والمخبوزات",
+        id: "soda",
+        category: "غازيات",
+        subtitle: "مشروبات غازية، طاقة ومشروبات أوبا",
         items: [
-          { id: 8, name: "تشيز كيك كلاسيك", desc: "طبقة بسكويت مقرمشة وكريمة غنية", price: 22 },
-          { id: 9, name: "كوكيز شوكولاتة داكنة", desc: "مخبوزة طازجة بقطع شوكولاتة", price: 14 }
+          { id: 54, name: "ريد بول", price: 20 },
+          { id: 55, name: "مياه", price: 2 },
+          { id: 56, name: "سفن اب", price: 6 },
+          { id: 57, name: "ميراند برتقال", price: 6 },
+          { id: 58, name: "ديو", price: 6 },
+          { id: 59, name: "حمضيات", price: 6 },
+          { id: 60, name: "سفن اب دايت", price: 6 },
+          { id: 61, name: "بيبسي دايت", price: 6 },
+          { id: 62, name: "بيبسي", price: 6 },
+          { id: 63, name: "بايسن", price: 18 },
+          { id: 64, name: "كود رد", price: 12 },
+          { id: 65, name: "شمبانيا سعودي", price: 100 },
+          { id: 66, name: "مشروب تفاح (رواخ)", price: 15 },
+          { id: 67, name: "مشروب عنب (رواخ)", price: 15 },
+          { id: 68, name: "موسى توت أحمر", price: 16 },
+          { id: 69, name: "موسى مثلج أزرق", price: 16 },
+          { id: 70, name: "موسى رمان", price: 16 },
+          { id: 71, name: "موسى فراولة", price: 16 },
+          { id: 72, name: "موسى شعير", price: 16 },
+          { id: 73, name: "ميكس بيرا (أوبا)", price: 25 },
+          { id: 74, name: "كورونا بيرا", price: 20 },
+          { id: 75, name: "بيرا هينكل", price: 20 },
+          { id: 76, name: "شامبينيا عادي", price: 150 },
+          { id: 77, name: "شامبينيا أوبا اسبيشيل", price: 300 }
+        ]
+      },
+      {
+        id: "milkshake",
+        category: "ميلك شيك",
+        subtitle: "آيس كريم وميلك شيك بنكهات متنوعة",
+        items: [
+          { id: 78, name: "آيس كريم مشكل", price: 25 },
+          { id: 79, name: "ميلك شيك أوريو", price: 20 },
+          { id: 80, name: "ميلك شيك اسنيكرز", price: 20 },
+          { id: 81, name: "ميلك شيك كيت كات", price: 20 },
+          { id: 82, name: "ميلك شيك شوكليت", price: 20 },
+          { id: 83, name: "ميلك شيك ميكس شوكليت", price: 20 },
+          { id: 84, name: "ميلك شيك فراولة", price: 20 },
+          { id: 85, name: "ميلك شيك مانجو", price: 20 },
+          { id: 86, name: "ميلك شيك فانيليا", price: 20 }
+        ]
+      },
+      {
+        id: "fresh",
+        category: "عصائر فريش",
+        subtitle: "عصائر طبيعية طازجة",
+        items: [
+          { id: 87, name: "فراولة", price: 20 },
+          { id: 88, name: "شمام حليب", price: 20 },
+          { id: 89, name: "بطيخ", price: 20 },
+          { id: 90, name: "عنب", price: 20 },
+          { id: 91, name: "كيوي", price: 22 },
+          { id: 92, name: "موز بالحليب", price: 20 },
+          { id: 93, name: "زبادي فواكه", price: 20 },
+          { id: 94, name: "برتقال", price: 18 },
+          { id: 95, name: "ليمون نعناع", price: 18 },
+          { id: 96, name: "مانجو", price: 18 },
+          { id: 97, name: "أفوكادو", price: 20 },
+          { id: 98, name: "أفوكادو اسبيشل", price: 25 },
+          { id: 99, name: "بطيخ مع نعناع", price: 19 },
+          { id: 100, name: "كركاديه فريش", price: 18 },
+          { id: 101, name: "جوافة بالحليب", price: 20 },
+          { id: 102, name: "رمان فريش", price: 20 },
+          { id: 103, name: "ليمون فريش", price: 16 }
+        ]
+      },
+      {
+        id: "cocktail",
+        category: "كوكتيلات فريش",
+        subtitle: "كوكتيلات وسلطات فواكه",
+        items: [
+          { id: 104, name: "فلوريدا فواكه", price: 20 },
+          { id: 105, name: "كوكتيل كلاسيك أوبا", price: 18 },
+          { id: 106, name: "كوكتيل بنا كولادا", price: 18 },
+          { id: 107, name: "كوكتيل فريتشينو", price: 18 },
+          { id: 108, name: "سلطة فواكه وسط", price: 25 },
+          { id: 109, name: "مشروب أوبا", price: 18 },
+          { id: 110, name: "سلطة فواكه كبير", price: 35 }
+        ]
+      },
+      {
+        id: "dessert",
+        category: "الحلا",
+        subtitle: "كيك، كريب، بانكيك وحلويات",
+        items: [
+          { id: 111, name: "مولتن كيك لافا (حلا كندي)", price: 25 },
+          { id: 112, name: "براونيز شوكليت تشيز (حلا كندي)", price: 25 },
+          { id: 113, name: "كيك تيراميسو (حلا كندي)", price: 25 },
+          { id: 114, name: "نيويورك تشيز كيك فراولة أو بلوبيري", price: 25 },
+          { id: 115, name: "كوكيز نباتي كندي 1 قطعة", price: 10 },
+          { id: 116, name: "كيك تمر توفي (حلا كندي)", price: 25 },
+          { id: 117, name: "كيك الأناناس (كندي)", price: 25 },
+          { id: 118, name: "كيك الليمون (كندي)", price: 25 },
+          { id: 119, name: "سان سيباستيان", price: 25 },
+          { id: 120, name: "فوتشيني كريب", price: 22 },
+          { id: 121, name: "بنانا كريب", price: 20 },
+          { id: 122, name: "كريب ميكس", price: 18 },
+          { id: 123, name: "بانكيك ميكس شوكليت", price: 22 },
+          { id: 124, name: "ترافل موس شوكليت (كندي)", price: 20 },
+          { id: 125, name: "شوكليت فادج كيك (حلا كندي)", price: 25 }
+        ]
+      },
+      {
+        id: "shisha",
+        category: "الشيشة",
+        subtitle: "نكهات متنوعة للجلسات",
+        items: [
+          { id: 126, name: "شيشة مستكة", price: 45 },
+          { id: 127, name: "شيشة لاف", price: 45 },
+          { id: 128, name: "شيشة VIP", price: 85 },
+          { id: 129, name: "شيشة ميكس فواكه", price: 45 },
+          { id: 130, name: "شيشة خوخ", price: 45 },
+          { id: 131, name: "شيشة بطيخ نعناع", price: 45 },
+          { id: 132, name: "شيشة بلوبيري", price: 45 },
+          { id: 133, name: "شيشة علكة", price: 45 },
+          { id: 134, name: "شيشة نعناع", price: 45 },
+          { id: 135, name: "شيشة ليمون", price: 45 },
+          { id: 136, name: "شيشة ليمون نعناع", price: 45 },
+          { id: 137, name: "شيشة عنب نعناع", price: 45 },
+          { id: 138, name: "شيشة عنب توت", price: 45 },
+          { id: 139, name: "شيشة ميكس", price: 45 },
+          { id: 140, name: "شيشة نخلة", price: 45 },
+          { id: 141, name: "شيشة اسبيشيال", price: 50 }
+        ]
+      },
+      {
+        id: "snacks",
+        category: "تسالي",
+        subtitle: "مكسرات، مقرمشات وفصفص",
+        items: [
+          { id: 142, name: "مكس مشكل كبير", price: 25 },
+          { id: 143, name: "مني مشكل", price: 12 },
+          { id: 144, name: "كاجو", price: 10 },
+          { id: 145, name: "لوز", price: 10 },
+          { id: 146, name: "فسدق", price: 10 },
+          { id: 147, name: "ذرة", price: 6 },
+          { id: 148, name: "مقرمشات مشكلة", price: 6 },
+          { id: 149, name: "فصفص سوبر", price: 8 },
+          { id: 150, name: "فصفص عباد", price: 6 },
+          { id: 151, name: "فصفص قرع", price: 10 }
+        ]
+      },
+      {
+        id: "winter",
+        category: "الركن الشتوي",
+        subtitle: "أطباق دافئة مميزة",
+        items: [
+          { id: 152, name: "بليلة", price: 20 },
+          { id: 153, name: "حمص الشام", price: 16 }
         ]
       }
     ];
 
     const cart = {};
+    let currentPageId = "cover";
 
-    function renderMenu() {
-      const container = document.getElementById("menu-container");
+    function openPage(pageId) {
+      currentPageId = pageId;
+      document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
+      const target = document.getElementById(pageId === "cover" ? "page-cover" : `page-${pageId}`);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.page === pageId);
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderTopbarTabs() {
+      const topbar = document.getElementById("topbar-tabs");
+      const tabs = [{ id: "cover", label: "الغلاف" }, ...MENU_DATA.map((s) => ({ id: s.id, label: s.category }))];
+      topbar.innerHTML = tabs
+        .map(
+          (t) => `<button class="tab-btn ${currentPageId === t.id ? "active" : ""}" data-page="${t.id}" onclick="openPage('${t.id}')">${t.label}</button>`
+        )
+        .join("");
+    }
+
+    function renderCoverGrid() {
+      const grid = document.getElementById("cover-sections");
+      grid.innerHTML = MENU_DATA.map(
+        (sec) => `
+          <div class="cover-section-tile" onclick="openPage('${sec.id}')">
+            <div>
+              <strong>${sec.category}</strong>
+              <span>${sec.items.length} أصناف</span>
+            </div>
+            <span>←</span>
+          </div>
+        `
+      ).join("");
+    }
+
+    function renderSectionPages() {
+      const container = document.getElementById("section-pages-container");
       container.innerHTML = "";
 
-      MENU_DATA.forEach((section) => {
-        const title = document.createElement("h2");
-        title.className = "section-title";
-        title.textContent = section.category;
-        container.appendChild(title);
+      MENU_DATA.forEach((section, index) => {
+        const page = document.createElement("section");
+        page.className = `page ${currentPageId === section.id ? "active" : ""}`;
+        page.id = `page-${section.id}`;
+
+        const hero = document.createElement("div");
+        hero.className = "section-hero";
+        hero.innerHTML = `
+          <div class="section-artwork">
+            <div class="title-group">
+              <h2>${section.category}</h2>
+              <p>${section.subtitle}</p>
+            </div>
+            <div class="section-photo-box">${SECTION_ART[section.id] || ""}</div>
+          </div>
+        `;
+        page.appendChild(hero);
 
         section.items.forEach((item) => {
           const qty = cart[item.id] || 0;
           const row = document.createElement("div");
           row.className = "menu-item";
           row.innerHTML = `
-            <div class="item-info">
-              <h3>${item.name}</h3>
-              <p>${item.desc}</p>
+            <div>
+              <div class="item-name">${item.name}</div>
               <span class="item-price">${item.price} ر.س</span>
             </div>
             <div class="qty-controls">
@@ -254,11 +804,39 @@
               <button class="qty-btn add" onclick="changeQty(${item.id}, 1)">+</button>
             </div>
           `;
-          container.appendChild(row);
+          page.appendChild(row);
         });
+
+        const note = document.createElement("div");
+        note.className = "note-box";
+        note.innerHTML = `
+          <label for="note-${section.id}">ملاحظات على الطلب (اختياري)</label>
+          <input id="note-${section.id}" type="text" placeholder="مثال: بدون سكر، ثلج زيادة، رقم الطاولة..." oninput="syncNotes(this.value)" />
+        `;
+        page.appendChild(note);
+
+        const prevPage = index === 0 ? "cover" : MENU_DATA[index - 1].id;
+        const nextPage = index < MENU_DATA.length - 1 ? MENU_DATA[index + 1].id : "cover";
+        const nextLabel = index < MENU_DATA.length - 1 ? MENU_DATA[index + 1].category : "العودة للغلاف";
+
+        const pager = document.createElement("div");
+        pager.className = "page-pager";
+        pager.innerHTML = `
+          <button class="pager-btn" onclick="openPage('${prevPage}')">→ السابق</button>
+          <button class="pager-btn primary" onclick="openPage('${nextPage}')">${nextLabel} ←</button>
+        `;
+        page.appendChild(pager);
+
+        container.appendChild(page);
       });
 
       updateCartBar();
+    }
+
+    function syncNotes(val) {
+      document.querySelectorAll(".note-box input").forEach((inp) => {
+        if (inp.value !== val) inp.value = val;
+      });
     }
 
     function findItemById(id) {
@@ -270,6 +848,9 @@
     }
 
     function changeQty(id, delta) {
+      const noteInp = document.querySelector(".note-box input");
+      const savedNote = noteInp ? noteInp.value : "";
+
       const current = cart[id] || 0;
       const next = Math.max(0, current + delta);
       if (next === 0) {
@@ -277,7 +858,9 @@
       } else {
         cart[id] = next;
       }
-      renderMenu();
+
+      renderSectionPages();
+      if (savedNote) syncNotes(savedNote);
     }
 
     function updateCartBar() {
@@ -298,6 +881,9 @@
     }
 
     function sendOrder() {
+      const noteInp = document.querySelector(".note-box input");
+      const note = noteInp ? noteInp.value.trim() : "";
+
       let lines = ["مرحباً Oppa Cafe، أود طلب:", ""];
       let totalPrice = 0;
 
@@ -311,11 +897,17 @@
       });
 
       lines.push("", `الإجمالي: ${totalPrice} ر.س`);
+      if (note) {
+        lines.push(`ملاحظات: ${note}`);
+      }
+
       const text = encodeURIComponent(lines.join("\n"));
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
     }
 
-    renderMenu();
+    renderTopbarTabs();
+    renderCoverGrid();
+    renderSectionPages();
   </script>
 </body>
 </html>
