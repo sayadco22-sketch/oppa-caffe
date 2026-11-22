@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oppa Cafe | منيو أوبا كافيه</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --stone-bg: #f5f3ef;
+      --stone-soft: #ece8e1;
+      --white: #ffffff;
+      --teal: #0d9488;
+      --teal-dark: #0f766e;
+      --teal-light: #e6f7f5;
+      --teal-border: #bce6e2;
+      --whatsapp: #16a34a;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e5e0d8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--stone-bg);
+      color: var(--text);
+      padding-bottom: 120px;
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background-color: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .topbar-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .topbar-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background-color: var(--stone-bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background-color: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .page {
+      display: none;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 18px 14px;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .cover-card {
+      background: linear-gradient(165deg, var(--white) 0%, var(--stone-soft) 100%);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 26px;
+      padding: 34px 20px 28px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(15, 118, 110, 0.08);
+    }
+
+    .cover-logo-frame {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 16px;
+      border-radius: 28px;
+      background-color: #090d16;
+      border: 4px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 22px rgba(13, 148, 136, 0.22);
+    }
+
+    .cover-logo-frame svg {
+      width: 98px;
+      height: 98px;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      background-color: var(--teal-light);
+      color: var(--teal-dark);
+      border: 1px solid var(--teal-border);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .cover-card h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--teal-dark);
+      margin-bottom: 4px;
+    }
+
+    .cover-card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .cover-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      max-width: 480px;
+      margin: 0 auto 22px;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      color: var(--white);
+      border: none;
+      border-radius: 14px;
+      padding: 13px 28px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(13, 148, 136, 0.25);
+      margin-bottom: 24px;
+    }
+
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      text-align: right;
+    }
+
+    @media (max-width: 480px) {
+      .sections-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cover-section-tile {
+      background-color: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .cover-section-tile strong {
+      font-size: 0.92rem;
+      color: var(--text);
+      display: block;
+    }
+
+    .cover-section-tile span {
+      font-size: 0.78rem;
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    .section-hero {
+      background-color: var(--white);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 18px rgba(15, 118, 110, 0.06);
+    }
+
+    .section-banner-img {
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .section-header-bar {
+      padding: 12px 16px;
+      background: linear-gradient(120deg, var(--teal-light) 0%, var(--white) 100%);
+      border-top: 1px solid var(--teal-border);
+    }
+
+    .section-header-bar h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--teal-dark);
+    }
+
+    .section-header-bar p {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .menu-item {
+      background-color: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+    }
+
+    .item-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .item-photo {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+      background-color: var(--stone-soft);
+      border: 1px solid var(--teal-border);
+      flex-shrink: 0;
+    }
+
+    .item-name {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .item-price {
+      display: inline-block;
+      background-color: var(--teal-light);
+      color: var(--teal-dark);
+      border: 1px solid var(--teal-border);
+      font-weight: 800;
+      font-size: 0.86rem;
+      padding: 2px 10px;
+      border-radius: 9px;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid var(--teal-border);
+      background-color: var(--stone-bg);
+      color: var(--teal-dark);
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .qty-btn.add {
+      background-color: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .qty-val {
+      min-width: 20px;
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .page-pager {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pager-btn {
+      flex: 1;
+      background-color: var(--white);
+      color: var(--teal-dark);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .pager-btn.primary {
+      background-color: var(--teal);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+
+    .note-box {
+      background-color: var(--white);
+      border: 1.5px solid var(--teal-border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-top: 14px;
+    }
+
+    .note-box label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-bottom: 6px;
+    }
+
+    .note-box input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background-color: var(--stone-bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .cart-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--white);
+      border-top: 1.5px solid var(--teal-border);
+      padding: 12px 16px;
+      z-index: 50;
+      box-shadow: 0 -6px 20px rgba(15, 23, 42, 0.08);
+    }
+
+    .cart-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cart-summary {
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    .cart-summary strong {
+      font-size: 1.05rem;
+      color: var(--teal-dark);
+      display: block;
+    }
+
+    .whatsapp-btn {
+      background-color: var(--whatsapp);
+      color: var(--white);
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .whatsapp-btn.disabled {
+      background-color: #cbd5e1;
+      color: #64748b;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="topbar-inner" id="topbar-tabs"></div>
+  </nav>
+
+  <section class="page active" id="page-cover">
+    <div class="cover-card">
+      <div class="cover-logo-frame" aria-label="Oppa Cafe Logo">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36 28C32 20 40 14 38 7" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M72 26C68 17 77 11 75 5" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M41 34H47V52H41V34Z" fill="#ffffff"/>
+          <path d="M36 52H52L55 76C55 81 51 85 44 85C37 85 33 81 33 76L36 52Z" fill="#ffffff"/>
+          <path d="M44 62C30 62 22 52 24 41C25 36 29 33 33 33" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M58 42H94V64C94 75 86 83 75 83H73C63 83 58 76 58 66V42Z" fill="#ffffff"/>
+          <path d="M94 46H101C106 46 109 50 109 55C109 61 105 65 99 65H94" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M22 89C44 95 78 95 102 88" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
+          <text x="60" y="111" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold" font-style="italic">Oppa Cafe</text>
+        </svg>
+      </div>
+      <div class="cover-badge">المنيو الرقمي الرسمي</div>
+      <h1>OPPA CAFE</h1>
+      <h2>أوبا كافيه</h2>
+      <p>تصفح أقسام المنيو صفحة بصفحة مع صور الأصناف، واختر طلبك وأرسله مباشرة عبر واتساب.</p>
+      <button class="start-btn" type="button" onclick="openPage('hot')">ابدأ تصفح المنيو</button>
+
+      <div class="sections-grid" id="cover-sections"></div>
+    </div>
+  </section>
+
+  <div id="section-pages-container"></div>
+
+  <div class="cart-bar">
+    <div class="cart-inner">
+      <div class="cart-summary">
+        <span id="cart-count">0 أصناف مختارة</span>
+        <strong id="cart-total">الإجمالي: 0 ر.س</strong>
+      </div>
+      <a class="whatsapp-btn disabled" id="order-btn" href="#" target="_blank" rel="noopener">
+        اطلب عبر واتساب
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const WHATSAPP_NUMBER = "966554501502";
+    const FALLBACK_IMG = "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=300&q=80";
+
+    const P = {
+      latteArt: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=300&q=80",
+      matchaHot: "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=300&q=80",
+      americano: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=300&q=80",
+      turkish: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=300&q=80",
+      latte: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=300&q=80",
+      espresso: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=300&q=80",
+      macchiato: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=300&q=80",
+      dripCoffee: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=300&q=80",
+      cappuccino: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=300&q=80",
+      cortado: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=300&q=80",
+      caramelMac: "https://images.unsplash.com/photo-1579888071069-c107a6f79d82?auto=format&fit=crop&w=300&q=80",
+      hotMocha: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=300&q=80",
+      spanishHot: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80",
+      hotCider: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=300&q=80",
+      hotChoc: "https://images.unsplash.com/photo-1517578239113-b03992dcdd25?auto=format&fit=crop&w=300&q=80",
+      saudiDallah: "https://images.unsplash.com/photo-1596934014765-c2e129f31be6?auto=format&fit=crop&w=300&q=80",
+      teaCup: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?auto=format&fit=crop&w=300&q=80",
+      teaPot: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+      moroccanTea: "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=300&q=80",
+      sahlab: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80",
+      karak: "https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=300&q=80",
+      gingerLemon: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=300&q=80",
+      mojitoPeach: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80",
+      icedChoc: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=300&q=80",
+      icedTea: "https://images.unsplash.com/photo-1499638673689-79a0b5115d87?auto=format&fit=crop&w=300&q=80",
+      icedMatcha: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=300&q=80",
+      icedMocha: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=300&q=80",
+      icedLatte: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+      icedAmericano: "https://images.unsplash.com/photo-1517959105821-eaf2591984ca?auto=format&fit=crop&w=300&q=80",
+      v60: "https://images.unsplash.com/photo-1545665277-5937489579f2?auto=format&fit=crop&w=300&q=80",
+      mojitoMint: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=300&q=80",
+      mojitoBerry: "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=300&q=80",
+      mojitoBlue: "https://images.unsplash.com/photo-1560512823-829485b8bf24?auto=format&fit=crop&w=300&q=80",
+      mojitoStrawberry: "https://images.unsplash.com/photo-1546171753-97d7676e4602?auto=format&fit=crop&w=300&q=80",
+      mojitoWatermelon: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=300&q=80",
+      energyCan: "https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=300&q=80",
+      water: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+      sodaLemon: "https://images.unsplash.com/photo-1581006852262-e4307cf6283a?auto=format&fit=crop&w=300&q=80",
+      sodaOrange: "https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=300&q=80",
+      cola: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=300&q=80",
+      saudiChampagne: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=300&q=80",
+      sparklingJuice: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=300&q=80",
+      maltDrink: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=300&q=80",
+      iceCream: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=300&q=80",
+      shakeOreo: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=300&q=80",
+      shakeChoc: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=300&q=80",
+      shakeStrawberry: "https://images.unsplash.com/photo-1579954115545-a95591f28bfc?auto=format&fit=crop&w=300&q=80",
+      shakeMango: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?auto=format&fit=crop&w=300&q=80",
+      shakeVanilla: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80",
+      juiceStrawberry: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=300&q=80",
+      juiceMelon: "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=300&q=80",
+      juiceWatermelon: "https://images.unsplash.com/photo-1589733955941-5eeaf752f6dd?auto=format&fit=crop&w=300&q=80",
+      juiceGrape: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?auto=format&fit=crop&w=300&q=80",
+      juiceKiwi: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?auto=format&fit=crop&w=300&q=80",
+      juiceBanana: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=300&q=80",
+      juiceOrange: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=300&q=80",
+      juiceLemonMint: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=300&q=80",
+      juiceMango: "https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=300&q=80",
+      juiceAvocado: "https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?auto=format&fit=crop&w=300&q=80",
+      juiceHibiscus: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+      juiceGuava: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=300&q=80",
+      juicePomegranate: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=300&q=80",
+      cocktail: "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=300&q=80",
+      pinaColada: "https://images.unsplash.com/photo-1546171753-97d7676e4602?auto=format&fit=crop&w=300&q=80",
+      fruitSalad: "https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&w=300&q=80",
+      moltenCake: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?auto=format&fit=crop&w=300&q=80",
+      brownie: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80",
+      tiramisu: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=300&q=80",
+      cheesecake: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=300&q=80",
+      cookies: "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=300&q=80",
+      dateCake: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=300&q=80",
+      pineappleCake: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=300&q=80",
+      lemonCake: "https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=300&q=80",
+      sanSebastian: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=300&q=80",
+      crepe: "https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=300&q=80",
+      pancake: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=300&q=80",
+      fudgeCake: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=300&q=80",
+      shisha1: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=300&q=80",
+      shisha2: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=300&q=80",
+      shishaVip: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=300&q=80",
+      mixedNuts: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?auto=format&fit=crop&w=300&q=80",
+      cashew: "https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&w=300&q=80",
+      almond: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&w=300&q=80",
+      pistachio: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=300&q=80",
+      corn: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=300&q=80",
+      seeds: "https://images.unsplash.com/photo-1536591375667-f6e139933688?auto=format&fit=crop&w=300&q=80",
+      balila: "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=300&q=80",
+      hummusSham: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&w=300&q=80"
+    };
+
+    const MENU_DATA = [
+      {
+        id: "hot",
+        category: "المشروبات الساخنة",
+        subtitle: "قهوة، شاي، سحلب ومشروبات دافئة",
+        banner: P.latteArt,
+        items: [
+          { id: 1, name: "فلات وايت", price: 16, img: P.latteArt },
+          { id: 2, name: "ماتشا", price: 16, img: P.matchaHot },
+          { id: 3, name: "أمريكانو", price: 12, img: P.americano },
+          { id: 4, name: "قهوة تركي", price: 15, img: P.turkish },
+          { id: 5, name: "لاتيه", price: 16, img: P.latte },
+          { id: 6, name: "إسبرسو سنجل", price: 12, img: P.espresso },
+          { id: 7, name: "إسبرسو دبل", price: 15, img: P.espresso },
+          { id: 8, name: "إسبرسو ميكاتو", price: 14, img: P.macchiato },
+          { id: 9, name: "قهوة مقطرة", price: 16, img: P.dripCoffee },
+          { id: 10, name: "كابتشينو", price: 18, img: P.cappuccino },
+          { id: 11, name: "كورتادو", price: 16, img: P.cortado },
+          { id: 12, name: "كراميل ميكاتو", price: 16, img: P.caramelMac },
+          { id: 13, name: "موكا حار", price: 18, img: P.hotMocha },
+          { id: 14, name: "اسبانيش لاتيه", price: 18, img: P.spanishHot },
+          { id: 15, name: "هوت سيدر", price: 15, img: P.hotCider },
+          { id: 16, name: "هوت شوكليت", price: 18, img: P.hotChoc },
+          { id: 17, name: "قهوة سعودية دلة", price: 28, img: P.saudiDallah },
+          { id: 18, name: "شاي", price: 7, img: P.teaCup },
+          { id: 19, name: "تركي دبل", price: 15, img: P.turkish },
+          { id: 20, name: "نسكافيه", price: 16, img: P.latte },
+          { id: 21, name: "قهوة فرنساوي بندق", price: 16, img: P.cappuccino },
+          { id: 22, name: "قهوة فرنساوي كلاسيك", price: 16, img: P.latteArt },
+          { id: 23, name: "كوب قهوة عربي", price: 10, img: P.saudiDallah },
+          { id: 24, name: "براد شاي عراقي", price: 25, img: P.teaPot },
+          { id: 25, name: "براد شاي مغربي", price: 28, img: P.moroccanTea },
+          { id: 26, name: "براد شاي", price: 25, img: P.teaPot },
+          { id: 27, name: "سحلب نوتيلا", price: 18, img: P.hotChoc },
+          { id: 28, name: "سحلب مكسرات", price: 16, img: P.sahlab },
+          { id: 29, name: "شاي كرك", price: 10, img: P.karak },
+          { id: 30, name: "جنزبيل بالليمون", price: 10, img: P.gingerLemon },
+          { id: 31, name: "ينسون", price: 8, img: P.hotCider },
+          { id: 32, name: "شاي مغربي", price: 8, img: P.moroccanTea }
+        ]
+      },
+      {
+        id: "cold",
+        category: "المشروبات الباردة",
+        subtitle: "موهيتو، قهوة مثلجة ومشروبات منعشة",
+        banner: P.mojitoMint,
+        items: [
+          { id: 33, name: "موهيتو خوخ", price: 18, img: P.mojitoPeach },
+          { id: 34, name: "آيس شوكليت", price: 18, img: P.icedChoc },
+          { id: 35, name: "آيس تي", price: 16, img: P.icedTea },
+          { id: 36, name: "ماتشا", price: 18, img: P.icedMatcha },
+          { id: 37, name: "موكا بارد", price: 18, img: P.icedMocha },
+          { id: 38, name: "آيس وايت موكا", price: 18, img: P.icedLatte },
+          { id: 39, name: "آيس كراميل ميكاتو", price: 18, img: P.icedLatte },
+          { id: 40, name: "آيس لاتيه", price: 18, img: P.icedLatte },
+          { id: 41, name: "آيس إسبانيش لاتيه", price: 18, img: P.icedLatte },
+          { id: 42, name: "آيس أمريكانو", price: 12, img: P.icedAmericano },
+          { id: 43, name: "V60", price: 16, img: P.v60 },
+          { id: 44, name: "موهيتو مكس أرويجو", price: 18, img: P.mojitoBerry },
+          { id: 45, name: "موهيتو توت أحمر", price: 18, img: P.mojitoBerry },
+          { id: 46, name: "موهيتو توت أزرق", price: 18, img: P.mojitoBlue },
+          { id: 47, name: "موهيتو ليمون نعناع", price: 18, img: P.mojitoMint },
+          { id: 48, name: "موهيتو فراولة", price: 18, img: P.mojitoStrawberry },
+          { id: 49, name: "موهيتو رمان", price: 18, img: P.mojitoBerry },
+          { id: 50, name: "موهيتو باشن فروت", price: 18, img: P.mojitoPeach },
+          { id: 51, name: "موهيتو بطيخ", price: 18, img: P.mojitoWatermelon },
+          { id: 52, name: "موهيتو كود رد", price: 20, img: P.mojitoStrawberry },
+          { id: 53, name: "موهيتو ريد بول", price: 24, img: P.mojitoBlue }
+        ]
+      },
+      {
+        id: "soda",
+        category: "غازيات",
+        subtitle: "مشروبات غازية، طاقة ومشروبات أوبا",
+        banner: P.cola,
+        items: [
+          { id: 54, name: "ريد بول", price: 20, img: P.energyCan },
+          { id: 55, name: "مياه", price: 2, img: P.water },
+          { id: 56, name: "سفن اب", price: 6, img: P.sodaLemon },
+          { id: 57, name: "ميراند برتقال", price: 6, img: P.sodaOrange },
+          { id: 58, name: "ديو", price: 6, img: P.sodaLemon },
+          { id: 59, name: "حمضيات", price: 6, img: P.sodaOrange },
+          { id: 60, name: "سفن اب دايت", price: 6, img: P.sodaLemon },
+          { id: 61, name: "بيبسي دايت", price: 6, img: P.cola },
+          { id: 62, name: "بيبسي", price: 6, img: P.cola },
+          { id: 63, name: "بايسن", price: 18, img: P.energyCan },
+          { id: 64, name: "كود رد", price: 12, img: P.energyCan },
+          { id: 65, name: "شمبانيا سعودي", price: 100, img: P.saudiChampagne },
+          { id: 66, name: "مشروب تفاح (رواخ)", price: 15, img: P.sparklingJuice },
+          { id: 67, name: "مشروب عنب (رواخ)", price: 15, img: P.sparklingJuice },
+          { id: 68, name: "موسى توت أحمر", price: 16, img: P.maltDrink },
+          { id: 69, name: "موسى مثلج أزرق", price: 16, img: P.mojitoBlue },
+          { id: 70, name: "موسى رمان", price: 16, img: P.maltDrink },
+          { id: 71, name: "موسى فراولة", price: 16, img: P.maltDrink },
+          { id: 72, name: "موسى شعير", price: 16, img: P.maltDrink },
+          { id: 73, name: "ميكس بيرا (أوبا)", price: 25, img: P.maltDrink },
+          { id: 74, name: "كورونا بيرا", price: 20, img: P.maltDrink },
+          { id: 75, name: "بيرا هينكل", price: 20, img: P.maltDrink },
+          { id: 76, name: "شامبينيا عادي", price: 150, img: P.saudiChampagne },
+          { id: 77, name: "شامبينيا أوبا اسبيشيل", price: 300, img: P.saudiChampagne }
+        ]
+      },
+      {
+        id: "milkshake",
+        category: "ميلك شيك",
+        subtitle: "آيس كريم وميلك شيك بنكهات متنوعة",
+        banner: P.shakeOreo,
+        items: [
+          { id: 78, name: "آيس كريم مشكل", price: 25, img: P.iceCream },
+          { id: 79, name: "ميلك شيك أوريو", price: 20, img: P.shakeOreo },
+          { id: 80, name: "ميلك شيك اسنيكرز", price: 20, img: P.shakeChoc },
+          { id: 81, name: "ميلك شيك كيت كات", price: 20, img: P.shakeChoc },
+          { id: 82, name: "ميلك شيك شوكليت", price: 20, img: P.shakeChoc },
+          { id: 83, name: "ميلك شيك ميكس شوكليت", price: 20, img: P.shakeOreo },
+          { id: 84, name: "ميلك شيك فراولة", price: 20, img: P.shakeStrawberry },
+          { id: 85, name: "ميلك شيك مانجو", price: 20, img: P.shakeMango },
+          { id: 86, name: "ميلك شيك فانيليا", price: 20, img: P.shakeVanilla }
+        ]
+      },
+      {
+        id: "fresh",
+        category: "عصائر فريش",
+        subtitle: "عصائر طبيعية طازجة",
+        banner: P.juiceOrange,
+        items: [
+          { id: 87, name: "فراولة", price: 20, img: P.juiceStrawberry },
+          { id: 88, name: "شمام حليب", price: 20, img: P.juiceMelon },
+          { id: 89, name: "بطيخ", price: 20, img: P.juiceWatermelon },
+          { id: 90, name: "عنب", price: 20, img: P.juiceGrape },
+          { id: 91, name: "كيوي", price: 22, img: P.juiceKiwi },
+          { id: 92, name: "موز بالحليب", price: 20, img: P.juiceBanana },
+          { id: 93, name: "زبادي فواكه", price: 20, img: P.juiceStrawberry },
+          { id: 94, name: "برتقال", price: 18, img: P.juiceOrange },
+          { id: 95, name: "ليمون نعناع", price: 18, img: P.juiceLemonMint },
+          { id: 96, name: "مانجو", price: 18, img: P.juiceMango },
+          { id: 97, name: "أفوكادو", price: 20, img: P.juiceAvocado },
+          { id: 98, name: "أفوكادو اسبيشل", price: 25, img: P.juiceAvocado },
+          { id: 99, name: "بطيخ مع نعناع", price: 19, img: P.juiceWatermelon },
+          { id: 100, name: "كركاديه فريش", price: 18, img: P.juiceHibiscus },
+          { id: 101, name: "جوافة بالحليب", price: 20, img: P.juiceGuava },
+          { id: 102, name: "رمان فريش", price: 20, img: P.juicePomegranate },
+          { id: 103, name: "ليمون فريش", price: 16, img: P.juiceLemonMint }
+        ]
+      },
+      {
+        id: "cocktail",
+        category: "كوكتيلات فريش",
+        subtitle: "كوكتيلات وسلطات فواكه",
+        banner: P.cocktail,
+        items: [
+          { id: 104, name: "فلوريدا فواكه", price: 20, img: P.cocktail },
+          { id: 105, name: "كوكتيل كلاسيك أوبا", price: 18, img: P.pinaColada },
+          { id: 106, name: "كوكتيل بنا كولادا", price: 18, img: P.pinaColada },
+          { id: 107, name: "كوكتيل فريتشينو", price: 18, img: P.cocktail },
+          { id: 108, name: "سلطة فواكه وسط", price: 25, img: P.fruitSalad },
+          { id: 109, name: "مشروب أوبا", price: 18, img: P.cocktail },
+          { id: 110, name: "سلطة فواكه كبير", price: 35, img: P.fruitSalad }
+        ]
+      },
+      {
+        id: "dessert",
+        category: "الحلا",
+        subtitle: "كيك، كريب، بانكيك وحلويات",
+        banner: P.cheesecake,
+        items: [
+          { id: 111, name: "مولتن كيك لافا (حلا كندي)", price: 25, img: P.moltenCake },
+          { id: 112, name: "براونيز شوكليت تشيز (حلا كندي)", price: 25, img: P.brownie },
+          { id: 113, name: "كيك تيراميسو (حلا كندي)", price: 25, img: P.tiramisu },
+          { id: 114, name: "نيويورك تشيز كيك فراولة أو بلوبيري", price: 25, img: P.cheesecake },
+          { id: 115, name: "كوكيز نباتي كندي 1 قطعة", price: 10, img: P.cookies },
+          { id: 116, name: "كيك تمر توفي (حلا كندي)", price: 25, img: P.dateCake },
+          { id: 117, name: "كيك الأناناس (كندي)", price: 25, img: P.pineappleCake },
+          { id: 118, name: "كيك الليمون (كندي)", price: 25, img: P.lemonCake },
+          { id: 119, name: "سان سيباستيان", price: 25, img: P.sanSebastian },
+          { id: 120, name: "فوتشيني كريب", price: 22, img: P.crepe },
+          { id: 121, name: "بنانا كريب", price: 20, img: P.crepe },
+          { id: 122, name: "كريب ميكس", price: 18, img: P.crepe },
+          { id: 123, name: "بانكيك ميكس شوكليت", price: 22, img: P.pancake },
+          { id: 124, name: "ترافل موس شوكليت (كندي)", price: 20, img: P.fudgeCake },
+          { id: 125, name: "شوكليت فادج كيك (حلا كندي)", price: 25, img: P.fudgeCake }
+        ]
+      },
+      {
+        id: "shisha",
+        category: "الشيشة",
+        subtitle: "نكهات متنوعة للجلسات",
+        banner: P.shisha1,
+        items: [
+          { id: 126, name: "شيشة مستكة", price: 45, img: P.shisha1 },
+          { id: 127, name: "شيشة لاف", price: 45, img: P.shisha2 },
+          { id: 128, name: "شيشة VIP", price: 85, img: P.shishaVip },
+          { id: 129, name: "شيشة ميكس فواكه", price: 45, img: P.shisha1 },
+          { id: 130, name: "شيشة خوخ", price: 45, img: P.shisha2 },
+          { id: 131, name: "شيشة بطيخ نعناع", price: 45, img: P.shisha1 },
+          { id: 132, name: "شيشة بلوبيري", price: 45, img: P.shisha2 },
+          { id: 133, name: "شيشة علكة", price: 45, img: P.shisha1 },
+          { id: 134, name: "شيشة نعناع", price: 45, img: P.shisha2 },
+          { id: 135, name: "شيشة ليمون", price: 45, img: P.shisha1 },
+          { id: 136, name: "شيشة ليمون نعناع", price: 45, img: P.shisha2 },
+          { id: 137, name: "شيشة عنب نعناع", price: 45, img: P.shisha1 },
+          { id: 138, name: "شيشة عنب توت", price: 45, img: P.shisha2 },
+          { id: 139, name: "شيشة ميكس", price: 45, img: P.shisha1 },
+          { id: 140, name: "شيشة نخلة", price: 45, img: P.shisha2 },
+          { id: 141, name: "شيشة اسبيشيال", price: 50, img: P.shishaVip }
+        ]
+      },
+      {
+        id: "snacks",
+        category: "تسالي",
+        subtitle: "مكسرات، مقرمشات وفصفص",
+        banner: P.mixedNuts,
+        items: [
+          { id: 142, name: "مكس مشكل كبير", price: 25, img: P.mixedNuts },
+          { id: 143, name: "مني مشكل", price: 12, img: P.mixedNuts },
+          { id: 144, name: "كاجو", price: 10, img: P.cashew },
+          { id: 145, name: "لوز", price: 10, img: P.almond },
+          { id: 146, name: "فسدق", price: 10, img: P.pistachio },
+          { id: 147, name: "ذرة", price: 6, img: P.corn },
+          { id: 148, name: "مقرمشات مشكلة", price: 6, img: P.mixedNuts },
+          { id: 149, name: "فصفص سوبر", price: 8, img: P.seeds },
+          { id: 150, name: "فصفص عباد", price: 6, img: P.seeds },
+          { id: 151, name: "فصفص قرع", price: 10, img: P.seeds }
+        ]
+      },
+      {
+        id: "winter",
+        category: "الركن الشتوي",
+        subtitle: "أطباق دافئة مميزة",
+        banner: P.balila,
+        items: [
+          { id: 152, name: "بليلة", price: 20, img: P.balila },
+          { id: 153, name: "حمص الشام", price: 16, img: P.hummusSham }
+        ]
+      }
+    ];
+    const cart = {};
+    let currentPageId = "cover";
+    let orderNote = "";
+
+    function openPage(pageId) {
+      currentPageId = pageId;
+      document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"));
+      const target = document.getElementById(pageId === "cover" ? "page-cover" : `page-${pageId}`);
+      if (target) target.classList.add("active");
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.page === pageId);
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderTopbarTabs() {
+      const topbar = document.getElementById("topbar-tabs");
+      const tabs = [{ id: "cover", label: "الغلاف" }, ...MENU_DATA.map((s) => ({ id: s.id, label: s.category }))];
+      topbar.innerHTML = tabs
+        .map(
+          (t) => `<button class="tab-btn ${currentPageId === t.id ? "active" : ""}" type="button" data-page="${t.id}" onclick="openPage('${t.id}')">${t.label}</button>`
+        )
+        .join("");
+    }
+
+    function renderCoverGrid() {
+      const grid = document.getElementById("cover-sections");
+      grid.innerHTML = MENU_DATA.map(
+        (sec) => `
+          <div class="cover-section-tile" onclick="openPage('${sec.id}')">
+            <div>
+              <strong>${sec.category}</strong>
+              <span>${sec.items.length} أصناف</span>
+            </div>
+            <span>←</span>
+          </div>
+        `
+      ).join("");
+    }
+
+    function renderSectionPages() {
+      const container = document.getElementById("section-pages-container");
+      container.innerHTML = "";
+
+      MENU_DATA.forEach((section, index) => {
+        const page = document.createElement("section");
+        page.className = `page ${currentPageId === section.id ? "active" : ""}`;
+        page.id = `page-${section.id}`;
+
+        const hero = document.createElement("div");
+        hero.className = "section-hero";
+        hero.innerHTML = `
+          <img class="section-banner-img" src="${section.banner}" alt="${section.category}" onerror="this.src='${FALLBACK_IMG}'" />
+          <div class="section-header-bar">
+            <h2>${section.category}</h2>
+            <p>${section.subtitle}</p>
+          </div>
+        `;
+        page.appendChild(hero);
+
+        section.items.forEach((item) => {
+          const qty = cart[item.id] || 0;
+          const row = document.createElement("div");
+          row.className = "menu-item";
+          row.innerHTML = `
+            <div class="item-main">
+              <img class="item-photo" src="${item.img}" alt="${item.name}" onerror="this.src='${FALLBACK_IMG}'" />
+              <div>
+                <div class="item-name">${item.name}</div>
+                <span class="item-price">${item.price} ر.س</span>
+              </div>
+            </div>
+            <div class="qty-controls">
+              <button class="qty-btn" type="button" onclick="changeQty(${item.id}, -1)">-</button>
+              <span class="qty-val">${qty}</span>
+              <button class="qty-btn add" type="button" onclick="changeQty(${item.id}, 1)">+</button>
+            </div>
+          `;
+          page.appendChild(row);
+        });
+
+        const note = document.createElement("div");
+        note.className = "note-box";
+        note.innerHTML = `
+          <label for="note-${section.id}">ملاحظات على الطلب (اختياري)</label>
+          <input id="note-${section.id}" type="text" placeholder="مثال: بدون سكر، ثلج زيادة، رقم الطاولة..." oninput="syncNotes(this.value)" />
+        `;
+        page.appendChild(note);
+
+        const prevPage = index === 0 ? "cover" : MENU_DATA[index - 1].id;
+        const nextPage = index < MENU_DATA.length - 1 ? MENU_DATA[index + 1].id : "cover";
+        const nextLabel = index < MENU_DATA.length - 1 ? MENU_DATA[index + 1].category : "العودة للغلاف";
+
+        const pager = document.createElement("div");
+        pager.className = "page-pager";
+        pager.innerHTML = `
+          <button class="pager-btn" type="button" onclick="openPage('${prevPage}')">→ السابق</button>
+          <button class="pager-btn primary" type="button" onclick="openPage('${nextPage}')">${nextLabel} ←</button>
+        `;
+        page.appendChild(pager);
+
+        container.appendChild(page);
+      });
+
+      syncNotes(orderNote);
+      updateCartBar();
+    }
+
+    function syncNotes(val) {
+      orderNote = val;
+      document.querySelectorAll(".note-box input").forEach((inp) => {
+        if (inp.value !== val) inp.value = val;
+      });
+      updateCartBar();
+    }
+
+    function findItemById(id) {
+      for (const sec of MENU_DATA) {
+        const found = sec.items.find((i) => i.id === id);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function changeQty(id, delta) {
+      const current = cart[id] || 0;
+      const next = Math.max(0, current + delta);
+      if (next === 0) {
+        delete cart[id];
+      } else {
+        cart[id] = next;
+      }
+      renderSectionPages();
+    }
+
+    function updateCartBar() {
+      let totalItems = 0;
+      let totalPrice = 0;
+      const lines = ["مرحباً Oppa Cafe، أود طلب:", ""];
+
+      Object.entries(cart).forEach(([id, qty]) => {
+        const item = findItemById(Number(id));
+        if (item) {
+          const sub = item.price * qty;
+          totalItems += qty;
+          totalPrice += sub;
+          lines.push(`• ${item.name} × ${qty} = ${sub} ر.س`);
+        }
+      });
+
+      document.getElementById("cart-count").textContent = `${totalItems} أصناف مختارة`;
+      document.getElementById("cart-total").textContent = `الإجمالي: ${totalPrice} ر.س`;
+
+      const orderBtn = document.getElementById("order-btn");
+      if (totalItems === 0) {
+        orderBtn.classList.add("disabled");
+        orderBtn.href = "#";
+      } else {
+        lines.push("", `الإجمالي: ${totalPrice} ر.س`);
+        if (orderNote.trim()) lines.push(`ملاحظات: ${orderNote.trim()}`);
+        orderBtn.classList.remove("disabled");
+        orderBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+      }
+    }
+
+    renderTopbarTabs();
+    renderCoverGrid();
+    renderSectionPages();
+  </script>
+</body>
+</html>
